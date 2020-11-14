@@ -15,15 +15,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int licznik;
     private int punktyGracz1;
     private int punktyGracz2;
-    private TextView textViewPlayer1;
-    private TextView textViewPlayer2;
+    private TextView textGracz1;
+    private TextView textGracz2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textViewPlayer1 = findViewById(R.id.text_view_p1);
-        textViewPlayer2 = findViewById(R.id.text_view_p2);
+        textGracz1 = findViewById(R.id.text_view_p1);
+        textGracz2 = findViewById(R.id.text_view_p2);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 String buttonID = "button_" + i + j;
@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-
-
+    // klikniecie gracza i skutek czyli o lub x lub nic nie moze zrobic
     @Override
     public void onClick(View v) {
         if (!((Button) v).getText().toString().equals("")) {
@@ -61,12 +60,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 graczDwaWygrywa();
             }
         } else if (licznik == 9) {
-            draw();
+            remis();
         } else {
             ruchGracza1 = !ruchGracza1;
         }
     }
-
+    //sprawdzenie wygranej lub remisu jezeli sa 3 takie same w rzedzie lub nie ma juz miejsca
     private boolean sprawdzWygrana() {
         String[][] field = new String[3][3];
         for (int i = 0; i < 3; i++) {
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return false;
     }
-
+    //wygrana gracza dodaje mu punkt, remis nie daje punktu nikomu, macierz jest czyszczona, gotowa do kolejnej gry
     private void graczJedenWygrywa() {
         punktyGracz1++;
         Toast.makeText(this, "Gracz 1 wygrywa!", Toast.LENGTH_SHORT).show();
@@ -115,16 +114,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resetTablicy();
     }
 
-    private void draw() {
+    private void remis() {
         Toast.makeText(this, "Remis!", Toast.LENGTH_SHORT).show();
         resetTablicy();
     }
-
+    // dodawanie punktu do tabeli
     private void aktualizacjaTabeliWynikow() {
-        textViewPlayer1.setText("Gracz 1: " + punktyGracz1);
-        textViewPlayer2.setText("Gracz 2: " + punktyGracz2);
+        textGracz1.setText("Gracz 1: " + punktyGracz1);
+        textGracz2.setText("Gracz 2: " + punktyGracz2);
     }
-
+    // przygotowanie macierzy na kolejna gre
     private void resetTablicy() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         licznik = 0;
         ruchGracza1 = true;
     }
-
+    // zaczynanie gry od poczatku, zerowanie punktow dla obu graczy
     private void resetGame() {
         punktyGracz1 = 0;
         punktyGracz2 = 0;
